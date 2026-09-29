@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RedaIA - Minhas Redações</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      background: linear-gradient(160deg, #ffffff 0%, #eafcfa 30%, #d9f1f0 60%, #bdeceb 100%);
+      color: #2b3f5c;
+    }
+
+    /* Blobs decorativos, mais discretos que o login */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -200px;
+      right: -200px;
+      width: 420px;
+      height: 420px;
+      border-radius: 43% 57% 65% 35% / 45% 40% 60% 55%;
+      background: linear-gradient(135deg, #3b6fd6, #6fc7d1);
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      bottom: -240px;
+      left: -240px;
+      width: 480px;
+      height: 480px;
+      border-radius: 60% 40% 35% 65% / 55% 45% 55% 45%;
+      background: linear-gradient(135deg, #3b6fd6, #6fc7d1);
+      opacity: 0.12;
+      z-index: 0;
+    }
+
+    .topbar {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand .logo {
+      width: 42px;
+      height: 42px;
+      background: #ffffff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(30, 60, 110, 0.15);
+      padding: 5px;
+    }
+
+    .brand .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand span.name {
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: #33507a;
+    }
+
+    .user-chip {
+      font-size: .9rem;
+      color: #3a5c8a;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 32px 60px;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-row h1 {
+      font-weight: 600;
+      font-size: 1.7rem;
+      color: #33507a;
+    }
+
+    .header-row p {
+      font-size: .9rem;
+      color: #5a7396;
+      margin-top: 4px;
+    }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border: none;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #2b3f5c;
+      font-family: inherit;
+      font-size: .95rem;
+      font-weight: 500;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(30, 60, 110, 0.15);
+      transition: transform .15s ease;
+    }
+
+    .btn-pill:hover { transform: translateY(-2px); }
+
+    .btn-pill.primary {
+      background: linear-gradient(135deg, #3b6fd6, #6fc7d1);
+      color: #ffffff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 10px 28px rgba(30, 60, 110, 0.08);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 34px rgba(30, 60, 110, 0.14);
+    }
+
+    .card h3 {
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: #33507a;
+      line-height: 1.35;
+    }
+
+    .badge {
+      align-self: flex-start;
+      font-size: .75rem;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 999px;
+    }
+
+    .badge.corrigida { background: #dcf6ee; color: #1f9d6d; }
+    .badge.processando { background: #fdeecb; color: #b7791f; }
+
+    .card .nota {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #3b6fd6;
+    }
+
+    .card .ver-mais {
+      font-size: .85rem;
+      color: #3a5c8a;
+      font-weight: 500;
+    }
+
+    .card.nova {
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed rgba(58, 92, 138, 0.25);
+      box-shadow: none;
+      background: rgba(255,255,255,0.5);
+      min-height: 160px;
+    }
+
+    .card.nova span {
+      font-size: 2rem;
+      color: #3b6fd6;
+      font-weight: 300;
+    }
+
+    .card.nova p {
+      font-size: .9rem;
+      color: #5a7396;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo"><img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="RedaIA"></div>
+      <span class="name">RedaIA</span>
+    </div>
+    <span class="user-chip">Olá, Davy</span>
+  </div>
+
+  <main>
+    <div class="header-row">
+      <div>
+        <h1>Minhas redações</h1>
+        <p>Acompanhe suas correções e envie novos textos</p>
+      </div>
+      <a href="{{ url_for('redacoes.criar') }}" class="btn-pill primary">+ Nova redação</a>
+    </div>
+
+    <div class="grid">
+      <a href="{{ url_for('redacoes.resultado') }}" class="card">
+        <span class="badge corrigida">Corrigida</span>
+        <h3>A importância da educação digital</h3>
+        <span class="nota">920</span>
+        <span class="ver-mais">Ver resultado →</span>
+      </a>
+
+      <div class="card">
+        <span class="badge processando">Processando</span>
+        <h3>Desafios da mobilidade urbana</h3>
+      </div>
+
+      <a href="{{ url_for('redacoes.criar') }}" class="card nova">
+        <span>+</span>
+        <p>Criar nova redação</p>
+      </a>
+    </div>
+  </main>
+
+</body>
+</html>

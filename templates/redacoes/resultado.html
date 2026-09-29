@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RedaIA - Resultado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      background: linear-gradient(160deg, #ffffff 0%, #eafcfa 30%, #d9f1f0 60%, #bdeceb 100%);
+      color: #2b3f5c;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: -200px;
+      right: -200px;
+      width: 420px;
+      height: 420px;
+      border-radius: 43% 57% 65% 35% / 45% 40% 60% 55%;
+      background: linear-gradient(135deg, #3b6fd6, #6fc7d1);
+      opacity: 0.12;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      bottom: -240px;
+      left: -240px;
+      width: 480px;
+      height: 480px;
+      border-radius: 60% 40% 35% 65% / 55% 45% 55% 45%;
+      background: linear-gradient(135deg, #3b6fd6, #6fc7d1);
+      opacity: 0.10;
+      z-index: 0;
+    }
+
+    .topbar {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      padding: 24px 48px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand .back {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(30, 60, 110, 0.12);
+      font-size: 1rem;
+      color: #33507a;
+    }
+
+    .brand span.name {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #33507a;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 10px 32px 60px;
+    }
+
+    /* Cabeçalho com nota */
+    .resumo {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 40px 32px;
+      text-align: center;
+      box-shadow: 0 14px 36px rgba(30, 60, 110, 0.08);
+      margin-bottom: 28px;
+    }
+
+    .resumo .tema-label {
+      font-size: .85rem;
+      color: #7f93ad;
+      margin-bottom: 6px;
+    }
+
+    .resumo h1 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #33507a;
+      max-width: 520px;
+      margin: 0 auto 24px;
+      line-height: 1.4;
+    }
+
+    .nota-final {
+      font-size: 3.4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #3b6fd6, #6fc7d1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1;
+    }
+
+    .nota-final + p {
+      font-size: .85rem;
+      color: #7f93ad;
+      margin-top: 6px;
+    }
+
+    /* Diagnóstico */
+    .diagnostico {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      font-size: .78rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+
+    .chip.ok { background: #dcf6ee; color: #1f9d6d; }
+    .chip.alerta { background: #fdeecb; color: #b7791f; }
+
+    /* Competências */
+    h2.sec-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #33507a;
+      margin: 8px 0 16px;
+    }
+
+    .competencias {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 6px 24px;
+      box-shadow: 0 8px 22px rgba(30, 60, 110, 0.06);
+      margin-bottom: 32px;
+    }
+
+    .comp-item {
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(58, 92, 138, 0.08);
+    }
+
+    .comp-item:last-child { border-bottom: none; }
+
+    .comp-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .comp-top .comp-nome {
+      font-weight: 500;
+      font-size: .95rem;
+      color: #33507a;
+    }
+
+    .comp-top .comp-nota {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #3b6fd6;
+    }
+
+    .barra {
+      height: 8px;
+      border-radius: 999px;
+      background: #eaf2fb;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .barra-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #3b6fd6, #6fc7d1);
+    }
+
+    .comp-just {
+      font-size: .85rem;
+      color: #5a7396;
+      line-height: 1.5;
+    }
+
+    /* Repertórios sugeridos */
+    .repertorios {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 22px 24px;
+      box-shadow: 0 8px 22px rgba(30, 60, 110, 0.06);
+      margin-bottom: 32px;
+    }
+
+    .rep-item {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(58, 92, 138, 0.08);
+    }
+
+    .rep-item:last-child { border-bottom: none; }
+
+    .rep-item .rep-nome {
+      font-weight: 500;
+      font-size: .92rem;
+      color: #33507a;
+      margin-bottom: 4px;
+    }
+
+    .rep-item .rep-uso {
+      font-size: .83rem;
+      color: #5a7396;
+      line-height: 1.5;
+    }
+
+    /* Ações */
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border: none;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: .95rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .15s ease;
+    }
+
+    .btn-pill:hover { transform: translateY(-2px); }
+
+    .btn-pill.ghost {
+      background: transparent;
+      color: #5a7396;
+      border: 1px solid rgba(58, 92, 138, 0.25);
+    }
+
+    .btn-pill.primary {
+      background: linear-gradient(135deg, #3b6fd6, #6fc7d1);
+      color: #ffffff;
+      box-shadow: 0 10px 24px rgba(59, 111, 214, 0.28);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <a href="{{ url_for('redacoes.dashboard') }}" class="brand">
+      <span class="back">←</span>
+      <span class="name">Minhas Redações</span>
+    </a>
+  </div>
+
+  <main>
+    <div class="resumo">
+      <p class="tema-label">Tema identificado</p>
+      <h1>A importância da educação digital na formação cidadã</h1>
+      <div class="nota-final">920</div>
+      <p>de 1000 pontos</p>
+
+      <div class="diagnostico">
+        <span class="chip ok">Sem fuga ao tema</span>
+        <span class="chip ok">Sem tangenciamento</span>
+      </div>
+    </div>
+
+    <h2 class="sec-title">Competências</h2>
+    <div class="competencias">
+      {% set competencias = [
+        ("Domínio da norma culta", 180, "Poucos desvios gramaticais, boa variedade de vocabulário e estrutura frasal adequada ao gênero dissertativo."),
+        ("Compreensão da proposta", 200, "Desenvolveu o tema com domínio total, sem fugir nem tangenciar a proposta apresentada."),
+        ("Argumentação e repertório", 160, "Utilizou repertório sociocultural pertinente, mas poderia aprofundar melhor a análise de causas."),
+        ("Coesão textual", 180, "Boa progressão entre parágrafos, com conectivos variados e articulação clara das ideias."),
+        ("Proposta de intervenção", 200, "Proposta completa, detalhada e articulada com a discussão feita ao longo do texto.")
+      ] %}
+      {% for nome, nota, justificativa in competencias %}
+      <div class="comp-item">
+        <div class="comp-top">
+          <span class="comp-nome">{{ nome }}</span>
+          <span class="comp-nota">{{ nota }}/200</span>
+        </div>
+        <div class="barra">
+          <div class="barra-fill" style="width: {{ (nota / 200 * 100) | int }}%;"></div>
+        </div>
+        <p class="comp-just">{{ justificativa }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <h2 class="sec-title">Repertórios sugeridos</h2>
+    <div class="repertorios">
+      {% set sugestoes = [
+        ("BNCC - Competências digitais", "Citar a inclusão das competências digitais na base curricular como avanço institucional."),
+        ("Pesquisa CETIC.br sobre acesso à internet", "Usar dados de desigualdade de acesso à internet para reforçar o argumento sobre exclusão digital.")
+      ] %}
+      {% for nome, uso in sugestoes %}
+      <div class="rep-item">
+        <p class="rep-nome">{{ nome }}</p>
+        <p class="rep-uso">{{ uso }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="actions">
+      <a href="{{ url_for('redacoes.dashboard') }}" class="btn-pill ghost">Voltar ao início</a>
+      <a href="{{ url_for('redacoes.criar') }}" class="btn-pill primary">Corrigir outra redação</a>
+    </div>
+  </main>
+
+</body>
+</html>
