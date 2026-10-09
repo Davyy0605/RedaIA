@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>RedaIA - Criar conta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="logo-box"><span>RedaIA</span></div>
+
+    <h1>Criar conta</h1>
+
+    {% include "_flash.html" %}
+
+    <form method="post" action="{{ url_for('auth.cadastro') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="field">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" value="{{ nome }}" maxlength="100" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" value="{{ email }}" maxlength="150" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="senha">Senha (mínimo 8 caracteres)</label>
+        <input type="password" id="senha" name="senha" minlength="8" autocomplete="new-password" required>
+      </div>
+      <div class="field">
+        <label for="confirmar">Confirmar senha</label>
+        <input type="password" id="confirmar" name="confirmar" minlength="8" autocomplete="new-password" required>
+      </div>
+      {% if exige_codigo %}
+      <div class="field">
+        <label for="codigo">Código de cadastro (informado pelo professor)</label>
+        <input type="text" id="codigo" name="codigo" autocomplete="off" required>
+      </div>
+      {% endif %}
+
+      <button type="submit" class="btn-pill">Criar conta</button>
+    </form>
+
+    <p class="signup-text" style="margin-top: 22px;">Já tem conta?</p>
+    <a href="{{ url_for('auth.login') }}" class="btn-pill">Voltar ao login</a>
+
+    <footer>REDAIA • PROJETO FACEPE</footer>
+  </div>
+</body>
+</html>

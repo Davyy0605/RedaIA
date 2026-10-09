@@ -3,207 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
   <title>RedaIA - Nova Redação</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-      background: linear-gradient(160deg, #ffffff 0%, #eafcfa 30%, #d9f1f0 60%, #bdeceb 100%);
-      color: #2b3f5c;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: -200px;
-      right: -200px;
-      width: 420px;
-      height: 420px;
-      border-radius: 43% 57% 65% 35% / 45% 40% 60% 55%;
-      background: linear-gradient(135deg, #3b6fd6, #6fc7d1);
-      opacity: 0.12;
-      z-index: 0;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      bottom: -240px;
-      left: -240px;
-      width: 480px;
-      height: 480px;
-      border-radius: 60% 40% 35% 65% / 55% 45% 55% 45%;
-      background: linear-gradient(135deg, #3b6fd6, #6fc7d1);
-      opacity: 0.10;
-      z-index: 0;
-    }
-
-    .topbar {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 24px 48px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .brand .back {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 14px rgba(30, 60, 110, 0.12);
-      font-size: 1rem;
-      color: #33507a;
-    }
-
-    .brand span.name {
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: #33507a;
-    }
-
-    main {
-      position: relative;
-      z-index: 1;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 10px 32px 60px;
-    }
-
-    .heading {
-      margin-bottom: 28px;
-    }
-
-    .heading h1 {
-      font-weight: 600;
-      font-size: 1.7rem;
-      color: #33507a;
-    }
-
-    .heading p {
-      font-size: .9rem;
-      color: #5a7396;
-      margin-top: 4px;
-    }
-
-    .panel {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: 0 14px 36px rgba(30, 60, 110, 0.08);
-    }
-
-    .field { margin-bottom: 24px; }
-
-    .field label {
-      display: block;
-      font-size: .9rem;
-      font-weight: 500;
-      color: #33507a;
-      margin-bottom: 10px;
-    }
-
-    .field input[type="text"] {
-      width: 100%;
-      border: 1px solid rgba(58, 92, 138, 0.18);
-      border-radius: 14px;
-      padding: 14px 16px;
-      font-family: inherit;
-      font-size: .95rem;
-      color: #2b3f5c;
-      outline: none;
-      background: #fbfdfd;
-      transition: border-color .15s ease;
-    }
-
-    .field input[type="text"]:focus { border-color: #3b6fd6; }
-
-    .field textarea {
-      width: 100%;
-      min-height: 380px;
-      resize: vertical;
-      border: 1px solid rgba(58, 92, 138, 0.18);
-      border-radius: 16px;
-      padding: 20px;
-      font-family: inherit;
-      font-size: 1rem;
-      line-height: 1.75;
-      color: #2b3f5c;
-      outline: none;
-      background: #fbfdfd;
-      transition: border-color .15s ease;
-    }
-
-    .field textarea:focus { border-color: #3b6fd6; }
-
-    .field input::placeholder,
-    .field textarea::placeholder { color: rgba(43, 63, 92, 0.35); }
-
-    .counter {
-      display: flex;
-      justify-content: flex-end;
-      gap: 16px;
-      font-size: .8rem;
-      color: #7f93ad;
-      margin-top: 8px;
-    }
-
-    .counter span b { color: #3b6fd6; }
-
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .btn-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 13px 28px;
-      border: none;
-      border-radius: 999px;
-      font-family: inherit;
-      font-size: .95rem;
-      font-weight: 500;
-      text-decoration: none;
-      cursor: pointer;
-      transition: transform .15s ease;
-    }
-
-    .btn-pill:hover { transform: translateY(-2px); }
-
-    .btn-pill.ghost {
-      background: transparent;
-      color: #5a7396;
-      border: 1px solid rgba(58, 92, 138, 0.25);
-    }
-
-    .btn-pill.primary {
-      background: linear-gradient(135deg, #3b6fd6, #6fc7d1);
-      color: #ffffff;
-      box-shadow: 0 10px 24px rgba(59, 111, 214, 0.28);
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/redaia.css') }}">
 </head>
 <body>
 
@@ -214,47 +19,78 @@
     </a>
   </div>
 
-  <main>
+  <main class="medio">
     <div class="heading">
       <h1>Nova redação</h1>
       <p>Escreva ou cole seu texto abaixo para enviar para correção</p>
     </div>
 
+    {% include "_flash.html" %}
+
     <div class="panel">
-      <form method="post" action="{{ url_for('redacoes.criar') }}">
+      <form method="post" action="{{ url_for('redacoes.criar') }}" id="form-redacao">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
         <div class="field">
-          <label>Tema (opcional)</label>
-          <input type="text" name="tema" placeholder="Ex: Os desafios da educação digital no Brasil">
+          <label for="tema">Tema da redação (opcional)</label>
+          <input type="text" id="tema" name="tema" maxlength="255" value="{{ tema }}"
+                 placeholder="Ex: Desafios para a valorização de comunidades tradicionais no Brasil">
+          <p class="dica">Se você informar o tema, a IA confere se o texto fugiu ou tangenciou o tema. Sem ele, a IA estima o tema pelo seu texto e não consegue verificar isso.</p>
         </div>
 
         <div class="field">
-          <label>Texto da redação</label>
-          <textarea name="texto" id="texto" placeholder="Comece a escrever aqui..."></textarea>
+          <label for="texto">Texto da redação</label>
+          <textarea id="texto" name="texto" maxlength="{{ max_chars }}" required
+                    placeholder="Comece a escrever aqui...">{{ texto }}</textarea>
           <div class="counter">
             <span id="palavras"><b>0</b> palavras</span>
-            <span id="caracteres"><b>0</b> caracteres</span>
+            <span id="caracteres"><b>0</b> / {{ max_chars }} caracteres (mínimo {{ min_chars }})</span>
           </div>
         </div>
 
+        <p class="carregando" id="carregando">Corrigindo sua redação... isso pode levar até 1 minuto. Não feche esta página.</p>
+
         <div class="actions">
           <a href="{{ url_for('redacoes.dashboard') }}" class="btn-pill ghost">Cancelar</a>
-          <!-- Enquanto não tem lógica real, avança direto pro resultado -->
-          <a href="{{ url_for('redacoes.resultado') }}" class="btn-pill primary">Enviar para correção</a>
+          <button type="submit" class="btn-pill primary" id="enviar">Enviar para correção</button>
         </div>
       </form>
     </div>
   </main>
 
   <script>
+    const form = document.getElementById('form-redacao');
     const textarea = document.getElementById('texto');
+    const botao = document.getElementById('enviar');
+    const aviso = document.getElementById('carregando');
     const palavrasEl = document.querySelector('#palavras b');
     const caracteresEl = document.querySelector('#caracteres b');
+    const caracteresWrap = document.getElementById('caracteres');
+    const MIN = {{ min_chars }};
 
-    textarea.addEventListener('input', () => {
+    function atualizar() {
       const texto = textarea.value.trim();
-      const palavras = texto.length ? texto.split(/\s+/).length : 0;
-      palavrasEl.textContent = palavras;
+      palavrasEl.textContent = texto.length ? texto.split(/\s+/).length : 0;
       caracteresEl.textContent = textarea.value.length;
+      caracteresWrap.classList.toggle('fora', texto.length > 0 && texto.length < MIN);
+    }
+
+    textarea.addEventListener('input', atualizar);
+    atualizar();  // já conta o texto devolvido pelo servidor, se houve erro
+
+    form.addEventListener('submit', () => {
+      botao.disabled = true;  // evita envio duplicado
+      botao.textContent = 'Corrigindo...';
+      aviso.classList.add('ativo');
+    });
+
+    // Se o aluno voltar pelo botão "voltar" do navegador, destrava o botão.
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted) {
+        botao.disabled = false;
+        botao.textContent = 'Enviar para correção';
+        aviso.classList.remove('ativo');
+      }
     });
   </script>
 
