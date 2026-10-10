@@ -6,7 +6,7 @@ from pathlib import Path
 from openai import OpenAI
 
 # O prompt fica num arquivo de texto para você ajustá-lo sem mexer no código.
-PROMPT_SISTEMA = (Path(_file_).parent / "prompt_correcao.txt").read_text(encoding="utf-8")
+PROMPT_SISTEMA = (Path(__file__).parent / "prompt_correcao.txt").read_text(encoding="utf-8")
 
 
 class ErroCorrecao(Exception):

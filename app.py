@@ -17,7 +17,7 @@ from redacoes import redacoes_bp  # noqa: E402
 
 
 def create_app():
-    app = Flask(_name_)
+    app = Flask(__name__)
 
     db_url = os.environ.get("DATABASE_URL", "sqlite:///redaia.db")
     if db_url.startswith("postgres://"):  # prefixo antigo usado por algumas plataformas
@@ -83,5 +83,5 @@ def create_app():
 
 app = create_app()
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     app.run(debug=True)

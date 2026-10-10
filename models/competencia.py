@@ -26,7 +26,7 @@ class Competencia(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     redacao_id = db.Column(
-        db.Integer, db.ForeignKey("redacoes.id"), nullable=False, unique=True
+        db.Integer, db.ForeignKey("redacao.id"), nullable=False, unique=True
     )
 
     tema_identificado = db.Column(db.String(255))

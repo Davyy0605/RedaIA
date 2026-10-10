@@ -14,7 +14,7 @@ class Redacao(db.Model):
     criado_em = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
     usuario_id = db.Column(
-        db.Integer, db.ForeignKey("usuarios.id"), nullable=False, index=True
+        db.Integer, db.ForeignKey("usuario.id"), nullable=False, index=True
     )
 
     usuario = db.relationship("Usuario", back_populates="redacoes")
