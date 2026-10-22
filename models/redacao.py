@@ -4,7 +4,6 @@ from extensions import db
 
 
 class Redacao(db.Model):
-    _tablename_ = "redacoes"
 
     id = db.Column(db.Integer, primary_key=True)
     tema = db.Column(db.String(255))  # tema informado pelo aluno (opcional)
@@ -34,5 +33,5 @@ class Redacao(db.Model):
             return self.competencia.tema_identificado
         return (self.texto[:60] + "…") if len(self.texto) > 60 else self.texto
 
-    def _repr_(self):
+    def __repr__(self):
         return f"<Redacao {self.id}>"

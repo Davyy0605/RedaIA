@@ -22,7 +22,6 @@ def _lista_de_dicts(valor) -> list:
 class Competencia(db.Model):
     """Resultado da correção de uma redação (JSON da I.A)"""
 
-    _tablename_ = "competencias"
 
     id = db.Column(db.Integer, primary_key=True)
     redacao_id = db.Column(
@@ -103,5 +102,5 @@ class Competencia(db.Model):
             },
         }
 
-    def _repr_(self):
+    def __repr__(self):
         return f"<Competencia redacao={self.redacao_id} nota={self.nota_final}>"
