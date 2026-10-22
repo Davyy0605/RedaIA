@@ -8,6 +8,7 @@ load_dotenv()
 
 from flask import Flask, redirect, url_for  # noqa: E402
 from flask_login import current_user  # noqa: E402
+from sqlalchemy.exc import SQLAlchemyError  # noqa: E402
 from werkzeug.middleware.proxy_fix import ProxyFix  # noqa: E402
 
 from auth import auth_bp  # noqa: E402
@@ -76,7 +77,13 @@ def create_app():
         return "Muitas tentativas. Aguarde um minuto e tente novamente.", 429
 
     with app.app_context():
-        db.create_all()  # suficiente para o piloto; depois considere Flask-Migrate
+        # suficiente para o piloto; depois considere Flask-Migrate
+        try:
+            db.create_all()
+        except SQLAlchemyError:
+            # Com vários workers do gunicorn, outro processo pode ter criado as tabelas
+            # ao mesmo tempo; na segunda tentativa elas já existem e nada é recriado.
+            db.create_all()
 
     return app
 
