@@ -7,7 +7,6 @@ from extensions import db
 
 
 class Usuario(UserMixin, db.Model):
-    _tablename_ = "usuarios"
 
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
@@ -25,5 +24,5 @@ class Usuario(UserMixin, db.Model):
     def check_senha(self, senha: str) -> bool:
         return check_password_hash(self.senha_hash, senha)
 
-    def _repr_(self):
+    def __repr__(self):
         return f"<Usuario {self.email}>"
