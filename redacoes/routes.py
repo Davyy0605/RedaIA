@@ -90,8 +90,12 @@ def criar():
         db.session.add(Competencia.from_json(redacao_id, dados))
         redacao.status = "corrigida"
         db.session.commit()
-    except Exception:
-        current_app.logger.exception("Falha ao corrigir a redação %s", redacao_id)
+    except Exception as erro:
+        # Linha curta e fácil de achar nos logs do Render (busque por "FALHA NA CORRECAO").
+        current_app.logger.error(
+            "FALHA NA CORRECAO da redação %s: %s: %s", redacao_id, type(erro).__name__, erro
+        )
+        current_app.logger.exception("Detalhes da falha na redação %s", redacao_id)
         db.session.rollback()
         falhou = db.session.get(Redacao, redacao_id)
         if falhou:
