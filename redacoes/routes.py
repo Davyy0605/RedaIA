@@ -1,17 +1,37 @@
 from datetime import datetime, timedelta
 
-from flask import abort, current_app, flash, redirect, render_template, request, url_for
+from flask import abort, current_app, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 
-from extensions import db
+from extensions import db, limiter
 from models import Competencia, Redacao
-from services.ia import corrigir_redacao
+from services.ia import corrigir_redacao, transcrever_imagens
 from . import redacoes_bp
 
 MIN_CHARS = 400
 MAX_CHARS = 6000
 MAX_TEMA = 255
+
+# Transcrição por foto. O navegador já reduz a foto antes de enviar (~0,5 MB cada).
+MAX_FOTOS = 3
+MAX_BYTES_FOTO = 4 * 1024 * 1024
+MAX_BYTES_TRANSCRICAO = MAX_FOTOS * MAX_BYTES_FOTO + 64 * 1024  # usado em app.py
+
+# Assinaturas dos formatos aceitos (não confia na extensão nem no mimetype do navegador).
+ASSINATURAS_IMAGEM = (
+    (b"\xff\xd8\xff", "image/jpeg"),
+    (b"\x89PNG\r\n\x1a\n", "image/png"),
+)
+
+
+def _tipo_imagem(conteudo: bytes) -> str | None:
+    for assinatura, mimetype in ASSINATURAS_IMAGEM:
+        if conteudo.startswith(assinatura):
+            return mimetype
+    if conteudo[:4] == b"RIFF" and conteudo[8:12] == b"WEBP":
+        return "image/webp"
+    return None
 
 NOMES_COMPETENCIAS = [
     "Domínio da norma culta",
@@ -39,7 +59,8 @@ def dashboard():
 def criar():
     def formulario(tema="", texto=""):
         return render_template(
-            "redacoes/criar.html", tema=tema, texto=texto, min_chars=MIN_CHARS, max_chars=MAX_CHARS
+            "redacoes/criar.html", tema=tema, texto=texto, min_chars=MIN_CHARS, max_chars=MAX_CHARS,
+            max_fotos=MAX_FOTOS,
         )
 
     if request.method == "GET":
@@ -100,6 +121,40 @@ def criar():
         return recusar("Não foi possível corrigir agora. Seu texto foi mantido, tente de novo em instantes.")
 
     return redirect(url_for("redacoes.resultado", redacao_id=redacao_id))
+
+
+@redacoes_bp.route("/transcrever", methods=["POST"])
+@login_required
+@limiter.limit("5 per minute;30 per day", key_func=lambda: f"transcrever:{current_user.id}")
+def transcrever():
+    """Recebe fotos da redação manuscrita e devolve o texto transcrito para o aluno revisar."""
+    fotos = [f for f in request.files.getlist("fotos") if f and f.filename]
+    if not fotos:
+        return jsonify(erro="Envie pelo menos uma foto da redação."), 400
+    if len(fotos) > MAX_FOTOS:
+        return jsonify(erro=f"Envie no máximo {MAX_FOTOS} fotos."), 400
+
+    imagens = []
+    for foto in fotos:
+        conteudo = foto.read(MAX_BYTES_FOTO + 1)
+        if len(conteudo) > MAX_BYTES_FOTO:
+            return jsonify(erro="Uma das fotos é grande demais. Tente outra foto."), 400
+        mimetype = _tipo_imagem(conteudo)
+        if not mimetype:
+            return jsonify(erro="Formato de imagem não suportado. Use JPG, PNG ou WEBP."), 400
+        imagens.append((conteudo, mimetype))
+
+    try:
+        resultado = transcrever_imagens(imagens)
+    except Exception:
+        current_app.logger.exception("Falha ao transcrever fotos do usuário %s", current_user.id)
+        return jsonify(erro="Não foi possível ler a foto agora. Tente de novo em instantes."), 502
+
+    if not resultado["texto"]:
+        aviso = resultado["aviso"] or "Não encontramos texto na foto."
+        return jsonify(erro=f"{aviso} Tente uma foto mais nítida, com boa luz e a folha inteira."), 422
+
+    return jsonify(texto=resultado["texto"][:MAX_CHARS], aviso=resultado["aviso"])
 
 
 @redacoes_bp.route("/resultado/<int:redacao_id>")
