@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from flask import Flask, redirect, url_for  # noqa: E402
+from flask import Flask, redirect, request, url_for  # noqa: E402
 from flask_login import current_user  # noqa: E402
 from werkzeug.middleware.proxy_fix import ProxyFix  # noqa: E402
 
@@ -14,6 +14,7 @@ from auth import auth_bp  # noqa: E402
 from extensions import csrf, db, limiter, login_manager  # noqa: E402
 from models import Usuario  # noqa: E402  (importar os models registra as tabelas)
 from redacoes import redacoes_bp  # noqa: E402
+from redacoes.routes import MAX_BYTES_TRANSCRICAO  # noqa: E402
 
 
 def create_app():
@@ -41,6 +42,13 @@ def create_app():
     if em_producao:
         # No Render há um proxy na frente: sem isso o app enxergaria o IP do proxy.
         app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+
+    # Precisa rodar ANTES da checagem de CSRF (que já lê o corpo da requisição):
+    # só a rota de transcrição aceita fotos maiores que o limite geral de 64 KB.
+    @app.before_request
+    def limite_upload_fotos():
+        if request.endpoint == "redacoes.transcrever":
+            request.max_content_length = MAX_BYTES_TRANSCRICAO
 
     db.init_app(app)
     csrf.init_app(app)
