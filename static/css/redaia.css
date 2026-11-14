@@ -214,6 +214,25 @@ main .actions.centro { justify-content: center; }
 .chip.alerta { background: #fdeecb; color: #b7791f; }
 .obs { font-size: .88rem; color: #5a7396; line-height: 1.6; margin-top: 18px; }
 
+.texto-enviado { background: #ffffff; border-radius: 18px; box-shadow: 0 8px 22px rgba(30, 60, 110, 0.06); margin-bottom: 32px; }
+.texto-enviado summary {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px 16px;
+  padding: 18px 24px; cursor: pointer; list-style: none;
+  font-weight: 500; font-size: .95rem; color: #3b6fd6;
+}
+.texto-enviado summary::-webkit-details-marker { display: none; }
+.texto-enviado summary span:first-child::before {
+  content: ""; display: inline-block; width: 7px; height: 7px; margin: 0 12px 2px 2px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg); transition: transform .2s;
+}
+.texto-enviado[open] summary span:first-child::before { transform: rotate(45deg); }
+.texto-info { font-size: .8rem; font-weight: 400; color: #7f93ad; }
+.texto-corpo {
+  padding: 4px 24px 24px; border-top: 1px solid rgba(58, 92, 138, 0.08); padding-top: 18px;
+  white-space: pre-wrap; overflow-wrap: anywhere; font-size: .95rem; line-height: 1.8; color: #2b3f5c;
+}
+
 h2.sec-title { font-size: 1.05rem; font-weight: 600; color: #33507a; margin: 8px 0 16px; }
 
 .competencias, .repertorios { background: #ffffff; border-radius: 18px; box-shadow: 0 8px 22px rgba(30, 60, 110, 0.06); margin-bottom: 32px; }
@@ -252,6 +271,8 @@ h2.sec-title { font-size: 1.05rem; font-weight: 600; color: #33507a; margin: 8px
   .resumo { padding: 28px 18px; }
   .nota-final { font-size: 2.8rem; }
   .competencias { padding: 2px 18px; }
+  .texto-enviado summary { padding: 16px 18px; }
+  .texto-corpo { padding: 16px 18px 20px; }
   .repertorios { padding: 6px 18px; }
   .user-area .nome { display: none; }  /* economiza espaço: fica só o botão Sair */
 }

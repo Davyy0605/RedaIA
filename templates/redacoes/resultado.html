@@ -55,6 +55,14 @@
       {% endif %}
     </div>
 
+    <details class="texto-enviado">
+      <summary>
+        <span>Ver o texto que você enviou</span>
+        <span class="texto-info">{{ redacao.texto.split() | length }} palavras · enviado em {{ redacao.criado_em | data_br }}</span>
+      </summary>
+      <div class="texto-corpo">{{ redacao.texto }}</div>
+    </details>
+
     <h2 class="sec-title">Competências</h2>
     <div class="competencias">
       {% for nome, nota, justificativa in competencias %}
